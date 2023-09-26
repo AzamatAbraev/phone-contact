@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 
 export class ContactCard extends Component {
   render() {
-    const {name, lastname, id, category, phone, deleteContact, editContact, showModal,} = this.props;
+    const {name, lastname, id, category, phone, deleteContact, editContact} = this.props;
     const colors = {
       family: "bg-danger",
       friends: "bg-success",

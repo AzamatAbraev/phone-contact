@@ -1,4 +1,4 @@
-import React, { Component, createRef } from "react";
+import React, { Component } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 
 export class ContactForm extends Component {

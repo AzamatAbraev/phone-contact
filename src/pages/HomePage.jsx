@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ContactHeader from "../components/header/ContactHeader";
-import { Container, Modal } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import ContactForm from "../components/form/ContactForm";
 import ContactCard from "../components/card/ContactCard";
 
