@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ContactHeader from "../components/header/ContactHeader";
-import { Container } from "react-bootstrap";
+import { Container, Modal } from "react-bootstrap";
 import ContactForm from "../components/form/ContactForm";
 import ContactCard from "../components/card/ContactCard";
 
@@ -46,11 +46,20 @@ export class HomePage extends Component {
       category: "all",
       order: "all",
       validated: false,
+      openModal: false,
     };
   }
   render() {
-    const { contacts, contact, selected, search, category, validated, order } =
-      this.state;
+    const {
+      contacts,
+      contact,
+      selected,
+      search,
+      category,
+      validated,
+      order,
+      openModal,
+    } = this.state;
     const handleSearch = () => {
       this.setState({
         search: this.searchRef.current.value.trim().toLowerCase(),
@@ -66,6 +75,7 @@ export class HomePage extends Component {
         let newContacts;
         if (selected === null) {
           newContacts = [...contacts, newContact];
+          this.setState({ openModal: false });
           toast.success("Added successfully");
         } else {
           newContacts = contacts.map((contact) => {
@@ -76,6 +86,7 @@ export class HomePage extends Component {
           });
           toast.info("Edited Successfully");
         }
+
         localStorage.setItem("contacts", JSON.stringify(newContacts));
         this.setState({
           contacts: newContacts,
@@ -99,6 +110,7 @@ export class HomePage extends Component {
       localStorage.setItem("contacts", JSON.stringify(newContacts));
     };
     const editContact = (id) => {
+      this.setState({ openModal: true });
       this.setState({ selected: id });
       const contact = contacts.find((contact) => contact.id === id);
       this.setState({ contact, selected: id });
@@ -119,17 +131,25 @@ export class HomePage extends Component {
     };
     if (order !== "all") {
       if (order === "a-z") {
-        allContacts = allContacts.sort((a, b) => a.name > b.name ? 1 : -1);  
+        allContacts = allContacts.sort((a, b) => (a.name > b.name ? 1 : -1));
       } else if (order === "z-a") {
-        allContacts = allContacts.sort((a, b) => a.name > b.name ? -1 : 1 )
+        allContacts = allContacts.sort((a, b) => (a.name > b.name ? -1 : 1));
       }
     }
+    const showModal = () => {
+      this.setState({ openModal: true });
+    };
+    const hideModal = () => {
+      this.setState({ openModal: false });
+    };
 
     return (
       <Container>
         <ToastContainer autoClose="1000" />
 
         <ContactHeader
+          openModal={openModal}
+          showModal={showModal}
           category={category}
           handleCategory={handleCategory}
           order={order}
@@ -138,6 +158,9 @@ export class HomePage extends Component {
           handleSearch={handleSearch}
         />
         <ContactForm
+          hideModal={hideModal}
+          showModal={showModal}
+          openModal={openModal}
           validated={validated}
           selected={selected}
           submit={submit}
@@ -148,6 +171,8 @@ export class HomePage extends Component {
           {allContacts.map((contact, i) => {
             return (
               <ContactCard
+                hideModal={hideModal}
+                showModal={showModal}
                 editContact={editContact}
                 deleteContact={deleteContact}
                 key={i}

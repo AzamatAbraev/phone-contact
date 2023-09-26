@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, InputGroup } from "react-bootstrap";
+import { Button, Form, InputGroup } from "react-bootstrap";
 
 export class ContactHeader extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ export class ContactHeader extends Component {
       category,
       handleOrder,
       order,
+      showModal,
     } = this.props;
     return (
       <div>
@@ -39,6 +40,11 @@ export class ContactHeader extends Component {
               <option value="a-z">A-Z</option>
               <option value="z-a">Z-A</option>
             </Form.Select>
+          </InputGroup.Text>
+          <InputGroup.Text>
+            <Button onClick={showModal} variant="primary">
+              Add Contact
+            </Button>
           </InputGroup.Text>
         </InputGroup>
       </div>
